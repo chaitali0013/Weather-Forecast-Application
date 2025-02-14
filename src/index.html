@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather Forecast application</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/18005/18005326.png">
+
+    <link href="output.css" rel="stylesheet">
+    <link rel="stylesheet"  href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+
+</head>
+
+    
+
+<body class=" overflow-x-hidden ralative min-h-screen w-screen  justify-center items-center">
+
+
+     <!-- display Bengaluru Weather data by Defalut container-->
+    <div id="toast" class="fixed top-0 z-50 right-5 bg-green-500 text-white text-wrap md:text-lg lg:text-xl rounded-lg shadow-lg px-4 py-3 transition-transform transform translate-y-10 opacity-0">
+         Display  default Weather data .
+    </div> 
+
+    <!-- Heading  -->
+    <header class="text-center bg-[#3c9efa] py-2 rounded ">
+         <h1 class="text-4xl text-white text-center p- ">Weather Dashboard</h1>
+    </header>
+
+    <!-- main section -->
+    <main class="">
+
+        <!-- section that takes city name  -->
+        <section id="container" class="flex flex-col md:flex-row md:justify-between items-center md:items-start mt-6 lg:px-5 space-y-4 md:space-y-0 md:space-x-4 ">
+            
+            <!-- input filds (input,searchbtn ,current location btn) -->
+            <div id="weather-input"
+            class="w-full md:w-1/2 lg:w-2/5 bg-[rgba(255,255,255,0.3)] backdrop-blur-md bg-opacity-90 shadow-md hover:shadow-lg rounded py-4 px-5">
+                
+                <!-- label for input -->
+                <p class="font-semibold text-xl text-black-800" >Enter city Name</p>
+
+                <form  class="flex flex-col gap-4 mt-[3px]">
+                    <div id="input-container"
+                    class="w-full h-fit bg-white min-h-0 rounded-md">
+
+                        <!-- inputbox -->
+                        <input id="inputcity" type="text" placeholder="E.g., Delhi" class="w-full h-fit bg-white min-h-0 rounded-md  outline-none py-2 px-4"  autocomplete="off"/>
+
+                        <!-- 5 days search container -->
+                        <ul id="recent-cities"
+                        class=" min-h-0 text-sm text-gray-700 rounded-md flex flex-col  border-gray-300 outline-none px-2">
+                        </ul>
+                    </div>
+
+                    <!-- search city button -->
+                    <button id="search-btn"
+                    class="py-2 pl-3 pr-3  bg-blue-500 text-white font-medium rounded hover:bg-blue-600 transition-all active:bg-yellow-400 cursor-pointer"
+                    >Search</button>
+                       
+                    <div class="flex items-center justify-center gap-4">
+                       <span class="h-[1px] w-full bg-gray-800"></span>
+                        <p class="text-black-600 text-base font-semibold">Or</p>
+                        <span class="h-[1px] w-full bg-gray-800"></span>
+                    </div>
+                        
+                    <!-- current location button -->
+                    <button id="location-btn"
+                     class="py-2 pl-3 pr-3 bg-yellow-500 text-white font-medium rounded hover:bg-orange-400 transition-all cursor-pointer"
+                    >Use Current Location <i class='bx bx-current-location'></i> </button>
+                </form>
+            </div>
+
+            <!-- search section close -->
+
+            <!-- current weather data  -->
+            <div id="current-wether"
+             class="w-full md:w-1/2 lg:w-3/5 md:h-64 bg-gradient-to-r from-blue-500 to-blue-300 text-white shadow-md rounded p-4 flex flex-col lg:gap-7 md:gap-5 md:flex-row md:justify-between items-center space-y-4 md:space-y-0 md:space-x-4 lg:px-7">
+                <div 
+                class="flex flex-col md:gap-3 md:text-lg lg:text-2xl font-poppins font-medium">
+                    <h2 class="text-xl lg:text-3xl text-nowrap font-semibold">
+                        <span id="city-name" >Delhi</span> 
+                        <span id="curr-date">(00-00-00)</span>
+                    </h2>
+
+                    <p id="curr-temp">Temperature: -- ° C</p>
+                    <p id="curr-wind">Wind: -- M/S</p>
+                    <p id="curr-humi">Humidity: -- %</p>
+                </div>
+
+                <!-- weather image -->
+                <img id="curr-img"
+                class="md:relative md:right-12 md:top-10 lg:right-0 lg:top-0 h-24 w-24 md:h-32 md:w-32 lg:h-40 lg:w-40 object-contain"
+                src="https://openweathermap.org/img/wn/10d@2x.png" alt="weather-icon">
+
+                 <!-- Error Container to diplay error -->
+                <div class="hidden absolute top-[25%] left-[5%] md:left-[380px] md:top-56 lg:left-[55%] z-50 w-[340px] h-[110px] justify-center items-center text-wrap text-lg font-medium text-red-600 p-4 transition duration-200 ease-in-out bg-red-400 bg-opacity-50 rounded-md border-2 border-red-400">
+                    <p id="error">Something Error, Network error , City not find</p>
+                </div>
+                    
+
+            </div>
+            <!-- search weather section end -->
+        </section>
+
+        <!-- 5 days Forecast Section Start Here -->
+        <section class="md:px-10 ">
+            <h2 class="mt-5 md:text-xl lg:text-2xl font-semibold ">5-Days Forecast</h2>
+            <div id="#cards-container"
+              class="h-fit  text-base text-nowrap lg:text-lg grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 text-white"
+            >
+  
+                <!-- Card-1-->
+                <div
+                    class="card bg-[rgba(0,0,0,0.2)] hover:bg-[rgba(0,0,0,0.5)] hover:scale-[1.03] hover:shadow-xl transition-all duration-300 ease-in p-5 mt-3 md:pl-9 lg:pl-14 rounded-lg shadow-lg leading-6 md:leading-8 border-gray-300 border-l-2 border-b-2"
+                >
+                    <h3 id="forDate" class="font-bold text-nowrap">(00-00-00)</h3>
+                    <img id="forImg" class="h-24 w-24 md:h-28 md:w-28 my-3"
+                    src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
+                    <p id="forTemp">Temp: - °C</p>
+                    <p id="forWind">Wind: - M/S</p>
+                    <p id="forHumi">Humidity:-%</p>
+                </div>
+                <!-- Card-2-->
+                <div
+                class="card bg-[rgba(0,0,0,0.2)] hover:bg-[rgba(0,0,0,0.5)] hover:scale-[1.03] hover:shadow-xl transition-all duration-300 ease-in p-4 mt-3 md:pl-9 lg:pl-14 rounded-lg shadow-lg leading-6 md:leading-8 border-gray-300 border-l-2 border-b-2"
+                >
+                <h3 id="forDate" class="font-bold text-nowrap">(00-00-00)</h3>
+                <img id="forImg" class="h-24 w-24 md:h-28 md:w-28 my-3"
+                src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
+                <p id="forTemp">Temp: - °C</p>
+                    <p id="forWind">Wind: - M/S</p>
+                    <p id="forHumi">Humidity:-%</p>
+                </div>
+                <!-- Card-3-->
+                <div
+                    class="card bg-[rgba(0,0,0,0.2)] hover:bg-[rgba(0,0,0,0.5)] hover:scale-[1.03] hover:shadow-xl transition-all duration-300 ease-in p-5 mt-3 md:pl-9 lg:pl-14 rounded-lg shadow-lg leading-6 md:leading-8 border-gray-300 border-l-2 border-b-2"
+                >
+                    <h3 id="forDate" class="font-bold text-nowrap">(00-00-00)</h3>
+                    <img id="forImg" class="h-24 w-24 md:h-28 md:w-28 my-3"
+                    src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
+                    <p id="forTemp">Temp: - °C</p>
+                    <p id="forWind">Wind: - M/S</p>
+                    <p id="forHumi">Humidity:-%</p>
+                </div>
+                <!-- Card-4-->
+                <div
+                class="card bg-[rgba(0,0,0,0.2)] hover:bg-[rgba(0,0,0,0.5)] hover:scale-[1.03] hover:shadow-xl transition-all duration-300 ease-in p-5 mt-3 md:pl-9 lg:pl-14 rounded-lg shadow-lg leading-6 md:leading-8 border-gray-300 border-l-2 border-b-2"
+                >
+                <h3 id="forDate" class="font-bold text-nowrap">(00-00-00)</h3>
+                <img id="forImg" class="h-24 w-24 md:h-28 md:w-28 my-3"
+                src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
+                <p id="forTemp">Temp: - °C</p>
+                    <p id="forWind">Wind: - M/S</p>
+                    <p id="forHumi">Humidity:-%</p>
+                </div>
+                <!-- Card-5-->
+                <div
+                class="card bg-[rgba(0,0,0,0.2)] hover:bg-[rgba(0,0,0,0.5)] hover:scale-[1.03] hover:shadow-xl transition-all duration-300 ease-in p-5 mt-3 md:pl-9 lg:pl-14 rounded-lg shadow-lg leading-6 md:leading-8 border-gray-300 border-l-2 border-b-2"
+                >
+                    <h3 id="forDate" class="font-bold text-nowrap">(00-00-00)</h3>
+                    <img id="forImg" class="h-24 w-24 md:h-28 md:w-28 my-3"
+                    src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
+                    <p id="forTemp">Temp: - °C</p>
+                    <p id="forWind">Wind: - M/S</p>
+                    <p id="forHumi">Humidity:-%</p>
+                </div>
+               
+            </div>
+          
+        </section>
+          
+    </main>
+
+    <!-- script link -->
+    
+     <script src="app.js" defer></script>
+
+</body>
+</html>

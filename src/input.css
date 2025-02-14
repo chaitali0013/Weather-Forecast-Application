@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+body{
+  background: url("../bg-blur.jpg") no-repeat ;
+  background-size: cover;
+}
+
+header h1{
+  text-shadow: 2px 1px 1px black;
+}
+
+#input-container ul {
+    /* display: none; */
+    /* transform: translateY(0px); */
+    height: 0;
+    overflow: hidden;
+    transition: all;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
+  }
+
+  /* Show the  list  of recentCities when the input has focus */
+  #input-container:focus-within ul {
+    /* display: block; */
+    height: fit-content;
+  }
